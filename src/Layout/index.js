@@ -16,43 +16,39 @@ import DeckList from "./deck/DeckList";
 import Deck from "./deck/Deck";
 import Form from "./form/Form";
 
-
-
 function Layout() {
   const [decks, setDecks] = useState([]);
   const abortController = new AbortController();
   const signal = abortController.signal;
   const history = useHistory();
 
-  async function getDecks() {
-    try {
-      const response = await listDecks(signal);
-      console.log("=response=>",response, "<==")
-      setDecks(response);
-    } catch (error) {
-      console.log("=error=>",error, "<==")
-      if (error.name !== "AbortError") {
-        throw error;
-      }
-    }
-  }
 
-
-  // get decks when first rendered
   useEffect(() => {
-    const abortController = new AbortController();
+    async function getListOfDesk() {
+      const listOfDesksFromAPI = await listDecks();
 
-    getDecks();
+      setDecks((current) => (current = listOfDesksFromAPI));
+    }
 
-    return () => {
-      abortController.abort();
-    };
+    getListOfDesk();
   }, []);
 
   /**
    * Fetches all current decks form the database
    * -- using listDecks from utils/api/index.js -> API call
    */
+  async function getDecks() {
+    try {
+      const response = await listDecks(signal);
+      console.log("=response=>", response, "<==");
+      setDecks(response);
+    } catch (error) {
+      console.log("=error=>", error, "<==");
+      if (error.name !== "AbortError") {
+        throw error;
+      }
+    }
+  }
 
   /**
    * Posts a deck to the database
@@ -60,6 +56,7 @@ function Layout() {
    * @param {Object} deck - deck object represents a stack of cards
    * @returns {number} The id of created deck
    */
+
   async function addDeck(deck) {
     const created = await createDeck(deck, signal);
     getDecks();
@@ -110,8 +107,8 @@ function Layout() {
     ) {
       await deleteDeck(id, signal);
       getDecks();
-      history.push("/");
     }
+    history.push("/");
   }
 
   /**

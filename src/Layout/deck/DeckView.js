@@ -39,7 +39,7 @@ function DeckView({ removeDeck, removeCard, abortController }) {
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [deckId]);
 
   if (Object.keys(deck).length === 0) return null;
 

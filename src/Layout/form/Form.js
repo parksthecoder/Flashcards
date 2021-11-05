@@ -71,7 +71,7 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
         return () => {
             abortController.abort();
         };
-    }, [])
+    }, [cardId, deckId, edit, initForm])
 
     /**
      * Fetches the current deck from the database

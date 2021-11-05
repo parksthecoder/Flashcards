@@ -38,7 +38,7 @@ function DeckStudy({ abortController }) {
         return () => {
             abortController.abort();
         };
-    }, []);
+    }, [deckId]);
 
     // fetches current deck from the database
 
