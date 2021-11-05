@@ -32,6 +32,8 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
     const [deck, setDeck] = useState({});
     const [formData, setFormData] = useState({...initForm});
 
+    // const memo = useMemo([cardId, deckId, edit, initForm, keys, type])
+
     //get deck when first rendered
     useEffect(() => {
         const abortController = new AbortController();
@@ -71,7 +73,7 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
         return () => {
             abortController.abort();
         };
-    }, [cardId, deckId, edit, initForm])
+    }, [])
 
     /**
      * Fetches the current deck from the database
