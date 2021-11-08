@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
  * @returns {ReactElement} JSX for a Form component
  */
 
-function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortController }) {
+function Form({ type, edit, addDeck, addCard, editDeck, editCard }) {
     const history = useHistory();
     let { deckId, cardId } = useParams();
     const mode = edit ? "edit" : "create";
@@ -37,6 +37,8 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
     //get deck when first rendered
     useEffect(() => {
         const abortController = new AbortController();
+        // const readDeck = readDeck();
+
 
         async function getDeck() {
             if(type === "deck" && !edit) return;
@@ -73,7 +75,7 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
         return () => {
             abortController.abort();
         };
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     /**
      * Fetches the current deck from the database
@@ -117,7 +119,7 @@ function Form({ type, edit, addDeck, addCard, editDeck, editCard, abortControlle
             deckId = idx;
         }  
         
-        history.push(`/decks/$(deckId)`);
+        history.push(`/decks/${deckId}`);
     }
 
 	return (
